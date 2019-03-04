@@ -1,0 +1,11 @@
+<!-- 创建成功 -->
+<view class="success">
+    
+    <view class="tit">
+        <text>登陆成功!</text>
+    </view>
+
+    <view class="close" bindtap="bindClose">
+        <image src="../../../image/success-close.png"></image>
+    </view>
+</view>

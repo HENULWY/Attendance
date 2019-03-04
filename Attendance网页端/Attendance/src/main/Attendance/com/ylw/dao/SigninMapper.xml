@@ -1,0 +1,204 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ylw.dao.SigninMapper" >
+  <resultMap id="BaseResultMap" type="com.ylw.model.Signin" >
+    <constructor >
+      <idArg column="signInID" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <arg column="userID" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <arg column="signInDate" jdbcType="TIMESTAMP" javaType="java.util.Date" />
+      <arg column="signInAddress" jdbcType="VARCHAR" javaType="java.lang.String" />
+    </constructor>
+    <association property="user" column="userID" select="com.ylw.dao.UserMapper.selectByPrimaryKey"></association>
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    signInID, userID, signInDate, signInAddress
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.ylw.model.SigninExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from signin
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+    <if test="start !=0 or limit!=0">
+      limit #{start},#{limit}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from signin
+    where signInID = #{signInID,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from signin
+    where signInID = #{signInID,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.ylw.model.SigninExample" >
+    delete from signin
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.ylw.model.Signin" >
+    insert into signin (signInID, userID, signInDate, 
+      signInAddress)
+    values (#{signInID,jdbcType=INTEGER}, #{userID,jdbcType=INTEGER}, #{signInDate,jdbcType=TIMESTAMP}, 
+      #{signInAddress,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.ylw.model.Signin" >
+    insert into signin
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="signInID != null" >
+        signInID,
+      </if>
+      <if test="userID != null" >
+        userID,
+      </if>
+      <if test="signInDate != null" >
+        signInDate,
+      </if>
+      <if test="signInAddress != null" >
+        signInAddress,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="signInID != null" >
+        #{signInID,jdbcType=INTEGER},
+      </if>
+      <if test="userID != null" >
+        #{userID,jdbcType=INTEGER},
+      </if>
+      <if test="signInDate != null" >
+        #{signInDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="signInAddress != null" >
+        #{signInAddress,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.ylw.model.SigninExample" resultType="java.lang.Integer" >
+    select count(*) from signin
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update signin
+    <set >
+      <if test="record.signInID != null" >
+        signInID = #{record.signInID,jdbcType=INTEGER},
+      </if>
+      <if test="record.userID != null" >
+        userID = #{record.userID,jdbcType=INTEGER},
+      </if>
+      <if test="record.signInDate != null" >
+        signInDate = #{record.signInDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.signInAddress != null" >
+        signInAddress = #{record.signInAddress,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update signin
+    set signInID = #{record.signInID,jdbcType=INTEGER},
+      userID = #{record.userID,jdbcType=INTEGER},
+      signInDate = #{record.signInDate,jdbcType=TIMESTAMP},
+      signInAddress = #{record.signInAddress,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.ylw.model.Signin" >
+    update signin
+    <set >
+      <if test="userID != null" >
+        userID = #{userID,jdbcType=INTEGER},
+      </if>
+      <if test="signInDate != null" >
+        signInDate = #{signInDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="signInAddress != null" >
+        signInAddress = #{signInAddress,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where signInID = #{signInID,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.ylw.model.Signin" >
+    update signin
+    set userID = #{userID,jdbcType=INTEGER},
+      signInDate = #{signInDate,jdbcType=TIMESTAMP},
+      signInAddress = #{signInAddress,jdbcType=VARCHAR}
+    where signInID = #{signInID,jdbcType=INTEGER}
+  </update>
+
+
+</mapper>

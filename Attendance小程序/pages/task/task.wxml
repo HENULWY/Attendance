@@ -1,0 +1,88 @@
+<!--页面状态,引用模板-->
+<import src="../../lib/pageManager/pageManager.wxml" />
+<view class="pageStateWrapper" wx:if="{{netStateBean.contentHidden}}">
+  <template is="pagestate" data="{{...netStateBean}}" />
+</view>
+<view class="task-page">
+
+  <!-- 切换菜单 -->
+  <view class="t-menu">
+    <view class="t-menu-btn {{tabIndex ? '' : 'selected'}}" bindtap="changeTab" id="myTask">
+      <text>打卡记录</text>
+    </view>
+    <view class="t-menu-btn {{tabIndex ? 'selected' : ''}}" bindtap="changeTab" id="hotTask">
+      <text>考勤记录</text>
+    </view>
+  </view>
+
+  <!-- 任务分类 -->
+  <view class="t-inner">
+    <!--至少要绑定onLoadMore方法,因为原生onReachBottom方法经常不起作用-->
+    <scroll-view wx:if="{{!netStateBean.contentHidden}}" scroll-y="true" style="height:1300rpx;position:relative; z-index:999;" lower-threshold="50" bindscrolltolower="onLoadMore" bindscrolltoupper="onRefesh">
+
+
+
+    <view wx:if="{{!tabIndex}}">
+      <!--列表数据list, 字段必须使用infos-->
+      <block wx:for="{{infos}}" wx:for-item="item" wx:for-index="index" wx:key="unique">
+        <!--todo 这里写页面的具体内容 ,上方style也需自定义-->
+
+  <navigator>
+     <view class='items' style='border-bottom: 1px solid #f0f0f0;'> 
+
+        <view class="signInItem">
+              <view class="signInID">打卡编号:{{item.signInID}}</view>
+              <view class="signInName">打卡人:{{item.name}}</view>
+        </view>          
+        <view class="signInItem">
+          <view class="signDate">打卡时间:{{item.date}}</view>
+        </view>  
+        <view class="signInItem">
+              <view class="signAddress">打卡地址:{{item.address}}</view>
+        </view>
+     </view>
+  </navigator>
+        <!--分隔线,可有可无-->
+        <view wx:if="true" class="lession-split-line" />
+      </block>
+      <!--加载更多的状态显示,这里指定条目少于8条时不显示-->
+      <view class="loadmore_view" wx:if="{{!netStateBean.loadmoreHidden && infos.length>8 }}">
+        {{netStateBean.loadmoreMsg}}
+      </view>
+      </view>
+
+
+
+    <view wx:if="{{tabIndex}}">
+      <!--列表数据list, 字段必须使用infos-->
+      <block wx:for="{{infos}}" wx:for-item="item" wx:for-index="index" wx:key="unique">
+        <!--todo 这里写页面的具体内容 ,上方style也需自定义-->
+
+     <view class='items' style='border-bottom: 1px solid #f0f0f0;'> 
+  <navigator url="/pages/task/share/share?attendanceID={{item.attendID}}" hover-class="">
+        <view class="signInItem">
+              <view class="signInID">考勤编号:{{item.attendID}}</view>
+              <view class="signInName">员工姓名:{{item.userName}}</view>
+        </view>          
+        <view class="signInItem">
+          <view class="signDate">考勤时间:{{item.attendDate}}</view>
+        </view>  
+        <view class="signInItem">
+              <view class="signAddress">打卡地址:{{item.attendAddress}}</view>
+        </view>
+          </navigator>
+     </view>
+        <!--分隔线,可有可无-->
+        <view wx:if="true" class="lession-split-line" />
+      </block>
+      <!--加载更多的状态显示,这里指定条目少于8条时不显示-->
+      <view class="loadmore_view" wx:if="{{!netStateBean.loadmoreHidden && infos.length>8 }}">
+        {{netStateBean.loadmoreMsg}}
+      </view>
+      </view>
+
+
+    </scroll-view>
+  </view>
+
+</view>

@@ -1,0 +1,59 @@
+<view class="sign-page">
+    <map
+      id="attendMap"
+      style="width: 100%; height: 205px;"
+      latitude="{{latitude}}"
+      longitude="{{longitude}}"
+      show-location
+    ></map>
+  <!-- 有打卡任务 -->
+  <block wx:if="{{flag}}">
+    <!-- module b -->
+    <view class="module-b">
+      <!-- 状态为0：倒计时 -->
+      <block wx:if="{{currentState == 0}}">
+        <view class="tit">
+          <block wx:if="{{currentTimeFlag == 0}}">
+            <text></text>
+          </block>
+          <block wx:if="{{currentTimeFlag == 1}}">
+            <text>已迟到</text>
+          </block>
+        </view>
+        <view class="num">
+          <text class="hour"></text>
+          <text>:</text>
+          <text class="min"></text>
+        </view>
+        <view class="sign-wrap" bindtap="signTask">
+          <view class="sign-btn">
+            <image src="../../image/sign_btn_{{btn}}.png"></image>
+          </view>
+        </view>
+      </block>
+
+      <!-- 状态为1：已打卡 -->
+      <block wx:if="{{currentState == 1}}">
+        <view class="tit success">
+          <text>打卡成功！</text>
+        </view>
+        <view class="num unable">
+          <text class="hour">00</text>
+          <text>:</text>
+          <text class="min">00</text>
+        </view>
+        <view class="sign-wrap">
+          <view class="sign-btn">
+            <image src="../../image/sign_btn_2.png"></image>
+          </view>
+        </view>
+      </block>
+    </view>
+
+  </block>
+
+  <!-- 提示信息 -->
+  <modal class="modal" hidden="{{modalHidden}}" no-cancel bindconfirm="modalChange" bindcancel="modalChange">
+    <view>{{modalText}}</view>
+  </modal>
+</view>

@@ -1,0 +1,31 @@
+<!-- 新建任务 -->
+<view class="add-page">
+
+    <view class="mod-a mt20">
+        <!-- 姓名 -->
+        <view class="mod t-name">
+            <text class="key">账号</text>
+            <input class="input" maxlength="100" placeholder="账号"bindinput="accountInput"/>
+            <image class="arrow-r" src="../../image/arrow-r-0.png"></image>
+        </view> 
+
+        <!-- 密码 -->
+        <view class="mod t-name">
+            <text class="key">密码</text>
+            <input class="input"type="password"maxlength="100"placeholder="密码" bindinput="passwordInput"/>
+            <image class="arrow-r" src="../../image/arrow-r-0.png"></image>
+        </view>
+
+    </view>
+
+    <!-- 创建按钮 -->
+    <view class="create">
+        <button class="btn {{creating ? 'disabled' : ''}}" bindtap="bindSubmit">{{button.txt}}</button>
+    </view>
+    
+    <!-- 提示信息 -->
+    <modal confirm-text="确定"no-confirm  no-cancel hidden="{{modalHidden}}" mask bindconfirm="modalChange">
+        请完善登陆信息
+    </modal>
+
+</view>

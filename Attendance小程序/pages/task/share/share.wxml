@@ -1,0 +1,41 @@
+<!-- 创建成功 -->
+<view class="success">
+  <view class="task-name">
+    <text>考勤申报</text>
+  </view>
+  <view class="panel">
+      <view class='attendance' style='border-bottom: 1px solid #f0f0f0;'>
+        <view class="signInItem">
+          <view class="signAddress">考勤ID:{{attendID}}</view>
+          <view class="signAddress">员工ID:{{userID}}</view>
+        </view>
+        <view class="signInItem">
+          <view class="signAddress">考勤日期:{{attendDate}}</view>
+        </view>
+        <view class="signInItem">
+          <view class="signAddress">签到状态:{{amState}}</view>
+          <view class="signAddress">签到时间:{{amDate}}</view>
+        </view>
+        <view class="signInItem">
+          <view class="signAddress">签退状态:{{pmState}}</view>
+          <view class="signAddress">签退时间:{{pmDate}}</view>
+        </view>
+        <view class="signInItem">
+          <view class="signAddress">出勤地址地址:{{attendAddress}}</view>
+        </view>
+      </view>
+    <view class="tips">
+      <text>申报原因</text>
+    </view>
+    <view class="code">
+      <input type="text" value="{{remake}}" />
+    </view>
+    <view class="create">
+      <button class="btn {{creating ? 'disabled' : ''}}" bindtap="bindSubmit">确认提交 </button>
+    </view>
+  </view>
+
+  <view class="close" bindtap="bindClose">
+    <image src="../../../image/success-close.png"></image>
+  </view>
+</view>

@@ -1,0 +1,304 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ylw.dao.UserMapper" >
+  <resultMap id="BaseResultMap" type="com.ylw.model.User" >
+    <constructor >
+      <idArg column="userID" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <arg column="userAccount" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="userPassword" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="CompanyID" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="userPhone" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="userName" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="userBirthDay" jdbcType="TIMESTAMP" javaType="java.util.Date" />
+      <arg column="userDepartment" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="userPower" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <arg column="userWechat" jdbcType="VARCHAR" javaType="java.lang.String" />
+    </constructor>
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    userID, userAccount, userPassword, CompanyID, userPhone, userName, userBirthDay, 
+    userDepartment, userPower, userWechat
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.ylw.model.UserExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from user
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from user
+    where userID = #{userID,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from user
+    where userID = #{userID,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.ylw.model.UserExample" >
+    delete from user
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.ylw.model.User" >
+    insert into user (userID, userAccount, userPassword, 
+      CompanyID, userPhone, userName, 
+      userBirthDay, userDepartment, userPower, 
+      userWechat)
+    values (#{userID,jdbcType=INTEGER}, #{userAccount,jdbcType=VARCHAR}, #{userPassword,jdbcType=VARCHAR}, 
+      #{companyID,jdbcType=VARCHAR}, #{userPhone,jdbcType=VARCHAR}, #{userName,jdbcType=VARCHAR}, 
+      #{userBirthDay,jdbcType=TIMESTAMP}, #{userDepartment,jdbcType=VARCHAR}, #{userPower,jdbcType=INTEGER}, 
+      #{userWechat,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.ylw.model.User" >
+    insert into user
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="userID != null" >
+        userID,
+      </if>
+      <if test="userAccount != null" >
+        userAccount,
+      </if>
+      <if test="userPassword != null" >
+        userPassword,
+      </if>
+      <if test="companyID != null" >
+        CompanyID,
+      </if>
+      <if test="userPhone != null" >
+        userPhone,
+      </if>
+      <if test="userName != null" >
+        userName,
+      </if>
+      <if test="userBirthDay != null" >
+        userBirthDay,
+      </if>
+      <if test="userDepartment != null" >
+        userDepartment,
+      </if>
+      <if test="userPower != null" >
+        userPower,
+      </if>
+      <if test="userWechat != null" >
+        userWechat,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="userID != null" >
+        #{userID,jdbcType=INTEGER},
+      </if>
+      <if test="userAccount != null" >
+        #{userAccount,jdbcType=VARCHAR},
+      </if>
+      <if test="userPassword != null" >
+        #{userPassword,jdbcType=VARCHAR},
+      </if>
+      <if test="companyID != null" >
+        #{companyID,jdbcType=VARCHAR},
+      </if>
+      <if test="userPhone != null" >
+        #{userPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="userName != null" >
+        #{userName,jdbcType=VARCHAR},
+      </if>
+      <if test="userBirthDay != null" >
+        #{userBirthDay,jdbcType=TIMESTAMP},
+      </if>
+      <if test="userDepartment != null" >
+        #{userDepartment,jdbcType=VARCHAR},
+      </if>
+      <if test="userPower != null" >
+        #{userPower,jdbcType=INTEGER},
+      </if>
+      <if test="userWechat != null" >
+        #{userWechat,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.ylw.model.UserExample" resultType="java.lang.Integer" >
+    select count(*) from user
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update user
+    <set >
+      <if test="record.userID != null" >
+        userID = #{record.userID,jdbcType=INTEGER},
+      </if>
+      <if test="record.userAccount != null" >
+        userAccount = #{record.userAccount,jdbcType=VARCHAR},
+      </if>
+      <if test="record.userPassword != null" >
+        userPassword = #{record.userPassword,jdbcType=VARCHAR},
+      </if>
+      <if test="record.companyID != null" >
+        CompanyID = #{record.companyID,jdbcType=VARCHAR},
+      </if>
+      <if test="record.userPhone != null" >
+        userPhone = #{record.userPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="record.userName != null" >
+        userName = #{record.userName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.userBirthDay != null" >
+        userBirthDay = #{record.userBirthDay,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.userDepartment != null" >
+        userDepartment = #{record.userDepartment,jdbcType=VARCHAR},
+      </if>
+      <if test="record.userPower != null" >
+        userPower = #{record.userPower,jdbcType=INTEGER},
+      </if>
+      <if test="record.userWechat != null" >
+        userWechat = #{record.userWechat,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update user
+    set userID = #{record.userID,jdbcType=INTEGER},
+      userAccount = #{record.userAccount,jdbcType=VARCHAR},
+      userPassword = #{record.userPassword,jdbcType=VARCHAR},
+      CompanyID = #{record.companyID,jdbcType=VARCHAR},
+      userPhone = #{record.userPhone,jdbcType=VARCHAR},
+      userName = #{record.userName,jdbcType=VARCHAR},
+      userBirthDay = #{record.userBirthDay,jdbcType=TIMESTAMP},
+      userDepartment = #{record.userDepartment,jdbcType=VARCHAR},
+      userPower = #{record.userPower,jdbcType=INTEGER},
+      userWechat = #{record.userWechat,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.ylw.model.User" >
+    update user
+    <set >
+      <if test="userAccount != null" >
+        userAccount = #{userAccount,jdbcType=VARCHAR},
+      </if>
+      <if test="userPassword != null" >
+        userPassword = #{userPassword,jdbcType=VARCHAR},
+      </if>
+      <if test="companyID != null" >
+        CompanyID = #{companyID,jdbcType=VARCHAR},
+      </if>
+      <if test="userPhone != null" >
+        userPhone = #{userPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="userName != null" >
+        userName = #{userName,jdbcType=VARCHAR},
+      </if>
+      <if test="userBirthDay != null" >
+        userBirthDay = #{userBirthDay,jdbcType=TIMESTAMP},
+      </if>
+      <if test="userDepartment != null" >
+        userDepartment = #{userDepartment,jdbcType=VARCHAR},
+      </if>
+      <if test="userPower != null" >
+        userPower = #{userPower,jdbcType=INTEGER},
+      </if>
+      <if test="userWechat != null" >
+        userWechat = #{userWechat,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where userID = #{userID,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.ylw.model.User" >
+    update user
+    set userAccount = #{userAccount,jdbcType=VARCHAR},
+      userPassword = #{userPassword,jdbcType=VARCHAR},
+      CompanyID = #{companyID,jdbcType=VARCHAR},
+      userPhone = #{userPhone,jdbcType=VARCHAR},
+      userName = #{userName,jdbcType=VARCHAR},
+      userBirthDay = #{userBirthDay,jdbcType=TIMESTAMP},
+      userDepartment = #{userDepartment,jdbcType=VARCHAR},
+      userPower = #{userPower,jdbcType=INTEGER},
+      userWechat = #{userWechat,jdbcType=VARCHAR}
+    where userID = #{userID,jdbcType=INTEGER}
+  </update>
+
+
+
+
+  <select id="selectLoginUser" resultType="com.ylw.model.User">
+    select * from user where userAccount = #{0} and userPassword = #{1}
+  </select>
+
+  <select id="selectCheckUser" resultType="int">
+    select count(*) from user where userAccount = #{0} or userPhone = #{1}
+  </select>
+</mapper>

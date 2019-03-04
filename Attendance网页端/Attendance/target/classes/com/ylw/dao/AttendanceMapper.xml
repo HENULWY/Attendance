@@ -1,0 +1,309 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ylw.dao.AttendanceMapper" >
+  <resultMap id="BaseResultMap" type="com.ylw.model.Attendance" >
+    <constructor >
+      <idArg column="attendID" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <arg column="userID" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <arg column="attendDate" jdbcType="TIMESTAMP" javaType="java.util.Date" />
+      <arg column="amDate" jdbcType="TIMESTAMP" javaType="java.util.Date" />
+      <arg column="pmDate" jdbcType="TIMESTAMP" javaType="java.util.Date" />
+      <arg column="amState" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="pmState" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="attendAddress" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="isAudited" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <arg column="isError" jdbcType="INTEGER" javaType="java.lang.Integer" />
+    </constructor>
+    <association property="user" column="userID" select="com.ylw.dao.UserMapper.selectByPrimaryKey"></association>
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    attendID, userID, attendDate, amDate, pmDate, amState, pmState, attendAddress, isAudited, 
+    isError
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.ylw.model.AttendanceExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from attendance
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+    <if test="start !=0 or limit!=0">
+      limit #{start},#{limit}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from attendance
+    where attendID = #{attendID,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from attendance
+    where attendID = #{attendID,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.ylw.model.AttendanceExample" >
+    delete from attendance
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.ylw.model.Attendance" >
+    insert into attendance (attendID, userID, attendDate,
+      amDate, pmDate, amState,
+      pmState, attendAddress, isAudited,
+      isError)
+    values (#{attendID,jdbcType=INTEGER}, #{userID,jdbcType=INTEGER}, #{attendDate,jdbcType=TIMESTAMP},
+      #{amDate,jdbcType=TIMESTAMP}, #{pmDate,jdbcType=TIMESTAMP}, #{amState,jdbcType=VARCHAR},
+      #{pmState,jdbcType=VARCHAR}, #{attendAddress,jdbcType=VARCHAR}, #{isAudited,jdbcType=INTEGER},
+      #{isError,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.ylw.model.Attendance" >
+    insert into attendance
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="attendID != null" >
+        attendID,
+      </if>
+      <if test="userID != null" >
+        userID,
+      </if>
+      <if test="attendDate != null" >
+        attendDate,
+      </if>
+      <if test="amDate != null" >
+        amDate,
+      </if>
+      <if test="pmDate != null" >
+        pmDate,
+      </if>
+      <if test="amState != null" >
+        amState,
+      </if>
+      <if test="pmState != null" >
+        pmState,
+      </if>
+      <if test="attendAddress != null" >
+        attendAddress,
+      </if>
+      <if test="isAudited != null" >
+        isAudited,
+      </if>
+      <if test="isError != null" >
+        isError,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="attendID != null" >
+        #{attendID,jdbcType=INTEGER},
+      </if>
+      <if test="userID != null" >
+        #{userID,jdbcType=INTEGER},
+      </if>
+      <if test="attendDate != null" >
+        #{attendDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="amDate != null" >
+        #{amDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="pmDate != null" >
+        #{pmDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="amState != null" >
+        #{amState,jdbcType=VARCHAR},
+      </if>
+      <if test="pmState != null" >
+        #{pmState,jdbcType=VARCHAR},
+      </if>
+      <if test="attendAddress != null" >
+        #{attendAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="isAudited != null" >
+        #{isAudited,jdbcType=INTEGER},
+      </if>
+      <if test="isError != null" >
+        #{isError,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.ylw.model.AttendanceExample" resultType="java.lang.Integer" >
+    select count(*) from attendance
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update attendance
+    <set >
+      <if test="record.attendID != null" >
+        attendID = #{record.attendID,jdbcType=INTEGER},
+      </if>
+      <if test="record.userID != null" >
+        userID = #{record.userID,jdbcType=INTEGER},
+      </if>
+      <if test="record.attendDate != null" >
+        attendDate = #{record.attendDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.amDate != null" >
+        amDate = #{record.amDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.pmDate != null" >
+        pmDate = #{record.pmDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.amState != null" >
+        amState = #{record.amState,jdbcType=VARCHAR},
+      </if>
+      <if test="record.pmState != null" >
+        pmState = #{record.pmState,jdbcType=VARCHAR},
+      </if>
+      <if test="record.attendAddress != null" >
+        attendAddress = #{record.attendAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="record.isAudited != null" >
+        isAudited = #{record.isAudited,jdbcType=INTEGER},
+      </if>
+      <if test="record.isError != null" >
+        isError = #{record.isError,jdbcType=INTEGER},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update attendance
+    set attendID = #{record.attendID,jdbcType=INTEGER},
+      userID = #{record.userID,jdbcType=INTEGER},
+      attendDate = #{record.attendDate,jdbcType=TIMESTAMP},
+      amDate = #{record.amDate,jdbcType=TIMESTAMP},
+      pmDate = #{record.pmDate,jdbcType=TIMESTAMP},
+      amState = #{record.amState,jdbcType=VARCHAR},
+      pmState = #{record.pmState,jdbcType=VARCHAR},
+      attendAddress = #{record.attendAddress,jdbcType=VARCHAR},
+      isAudited = #{record.isAudited,jdbcType=INTEGER},
+      isError = #{record.isError,jdbcType=INTEGER}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.ylw.model.Attendance" >
+    update attendance
+    <set >
+      <if test="userID != null" >
+        userID = #{userID,jdbcType=INTEGER},
+      </if>
+      <if test="attendDate != null" >
+        attendDate = #{attendDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="amDate != null" >
+        amDate = #{amDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="pmDate != null" >
+        pmDate = #{pmDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="amState != null" >
+        amState = #{amState,jdbcType=VARCHAR},
+      </if>
+      <if test="pmState != null" >
+        pmState = #{pmState,jdbcType=VARCHAR},
+      </if>
+      <if test="attendAddress != null" >
+        attendAddress = #{attendAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="isAudited != null" >
+        isAudited = #{isAudited,jdbcType=INTEGER},
+      </if>
+      <if test="isError != null" >
+        isError = #{isError,jdbcType=INTEGER},
+      </if>
+    </set>
+    where attendID = #{attendID,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.ylw.model.Attendance" >
+    update attendance
+    set userID = #{userID,jdbcType=INTEGER},
+      attendDate = #{attendDate,jdbcType=TIMESTAMP},
+      amDate = #{amDate,jdbcType=TIMESTAMP},
+      pmDate = #{pmDate,jdbcType=TIMESTAMP},
+      amState = #{amState,jdbcType=VARCHAR},
+      pmState = #{pmState,jdbcType=VARCHAR},
+      attendAddress = #{attendAddress,jdbcType=VARCHAR},
+      isAudited = #{isAudited,jdbcType=INTEGER},
+      isError = #{isError,jdbcType=INTEGER}
+    where attendID = #{attendID,jdbcType=INTEGER}
+  </update>
+
+
+  <insert id="insertInitAttendance" parameterType="com.ylw.model.Attendance" >
+    insert into attendance (userID, attendDate,
+    amDate, pmDate, amState,
+    pmState, attendAddress, isAudited,
+    isError)
+    values ( #{userID,jdbcType=INTEGER}, #{attendDate,jdbcType=TIMESTAMP},
+    #{amDate,jdbcType=TIMESTAMP}, #{pmDate,jdbcType=TIMESTAMP}, #{amState,jdbcType=VARCHAR},
+    #{pmState,jdbcType=VARCHAR}, #{attendAddress,jdbcType=VARCHAR}, #{isAudited,jdbcType=INTEGER},
+    #{isError,jdbcType=INTEGER})
+  </insert>
+</mapper>
